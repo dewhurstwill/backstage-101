@@ -77,6 +77,31 @@ yarn dev
 
 Navigate to `http://localhost:3000` in your browser to see the Backstage app running.
 
+### 5. Congratulations!
+
+You have successfully set up a Backstage app. You can now move on to the next section to learn how to configure Backstage.
+Before you move on, make sure to familiarize yourself with the folder structure of the Backstage app you just created.
+
+#### Folder structure
+
+The Backstage app you just created has the following folder structure:
+
+```bash
+my-backstage-app/
+│   ├── packages/
+│   │   ├── app/
+│   │   ├── backend/
+│   ├── examples/
+│   ├── plugins/
+├── app-config.yaml/
+├── app-config.local.yaml
+├── app-config.production.yaml
+├── package.json
+├── catalog-info.yaml
+```
+
+Backstage is built on [mono-repo architecture](https://github.com/dewhurstwill/yarn-workspaces-example), which means that the app is divided into multiple packages, each containing a different part of the app. The `app` package contains the frontend code, the `backend` package contains the backend code, and the `plugins` package contains the plugins that extend the functionality of the app.
+
 ## Next steps
 
 Now that you have set up a Backstage app, you can move on to the next section to learn how to configure Backstage.
