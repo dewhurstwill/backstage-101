@@ -38,9 +38,11 @@ Create a new secret for the app registration.
 
 <img src="/assets/02-auth/05-secrets.png" height=25%>
 
+<img src="/assets/02-auth/06-add-secret.png" height=25%>
+
 Make note of the secret value.
 
-<img src="/assets/02-auth/06-secret-value.png" height=25%>
+<img src="/assets/02-auth/07-secret-value.png" height=25%>
 
 #### 1.4. Now we will need to add some permissions to the app registration
 
