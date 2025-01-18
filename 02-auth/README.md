@@ -20,7 +20,7 @@ We also recommend that you have completed the tasks in the [Configuring Backstag
 
 Login to the [Azure Portal](https://portal.azure.com) and create a new app registration.
 
-<img src="assets/02-auth/app-reg.png" width=50% height=50%>
+<img src="/assets/02-auth/app-reg.png" width=50% height=50%>
 
 ### 2. Configure the `app-config.yaml` file
 
