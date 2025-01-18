@@ -4,15 +4,23 @@
 
 Welcome back the Backstage 101 workshop! In this section, you will learn how to configure Auth in Backstage.
 
+For this example we will be using Entra ID (Formerly Azure AD), Backstage supports a number of Authentication providers which can be found [here](https://backstage.io/docs/auth/#built-in-authentication-providers).
+
 ## Prerequisites
 
 Before you start, you will need to have installed the required tools and installed Backstage using the [Getting Started](../00-getting-started/README.md) guide.
 
+We also recommend that you have completed the tasks in the [Configuring Backstage](../01-configuring/README.md) section.
+
 ## Tasks
 
-### 1. Open the `app-config.yaml` file
+### 1. Crete an Entra ID app registration
 
-The `app-config.yaml` file is where you can configure Backstage. You can find this file in the root directory of your backstage app.
+#### 1.1. Create a new app registration
+
+Login to the [Azure Portal](https://portal.azure.com) and create a new app registration.
+
+<img src="assets/02-auth/app-reg.png" width=50% height=50%>
 
 ### 2. Configure the `app-config.yaml` file
 
