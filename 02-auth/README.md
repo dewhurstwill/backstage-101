@@ -107,7 +107,7 @@ auth:
             - resolver: emailMatchingUserEntityProfileEmail
 ```
 
-This will allow backstage to authenticate users using Entra ID (Formerly Azure AD). The configuration will any user of the tenant to login, we will be implementing permissions later.
+This will allow backstage to authenticate users using Entra ID (Formerly Azure AD). The configuration will allow any user of the tenant to login, we will be implementing more restrictive permissions later.
 
 You will need to add the environment variables or replace them in your configuration
 
