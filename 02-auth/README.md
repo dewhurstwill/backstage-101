@@ -1,8 +1,8 @@
-# Configuring Backstage
+# Configuring Auth
 
 ## Introduction
 
-Welcome back the Backstage 101 workshop! In this section, you will learn how to configure Backstage.
+Welcome back the Backstage 101 workshop! In this section, you will learn how to configure Auth in Backstage.
 
 ## Prerequisites
 
@@ -115,10 +115,6 @@ Open your browser and navigate to `http://localhost:3000` to see the changes you
 In the next section, you will learn how to set up Auth in Backstage.
 
 - [Setting up Auth](../02-auth/README.md)
-
-Want to skip ahead? You can come back to this section later.
-
-- [Setting up GitHub integration](../03-github/README.md)
 
 ## Resources
 
