@@ -46,3 +46,45 @@ yarn -v
 ```
 
 > Ensure you are using Yarn version 1.22.5 or later.
+
+## Tasks
+
+### 1. Run the following command to scaffold a new Backstage app:
+
+```bash
+npx @backstage/create-app@latest
+```
+
+> At the time of writing this workshop, the latest version of the @backstage/create-app is `0.24.0`. If you want to use the exact same version this can be done by running `npx @backstage/create-app@0.24.0`
+
+### 2. Change into the directory of the newly created app:
+
+```bash
+cd my-backstage-app
+```
+
+> Replace `my-backstage-app` with the name of your app if you used a different name.
+
+### 3. Start the Backstage app:
+
+```bash
+yarn dev
+```
+
+> This will start the Backstage app on `http://localhost:3000` and the backend at `http://localhost:7007`.
+
+### 4. Open the Backstage app in your browser:
+
+Navigate to `http://localhost:3000` in your browser to see the Backstage app running.
+
+## Next steps
+
+Now that you have set up a Backstage app, you can move on to the next section to learn how to configure Backstage.
+
+- [Configuring Backstage](../01-configuring/README.md)
+
+## Resources
+
+- [Backstage Documentation](https://backstage.io/docs)
+- [Backstage GitHub repository](https://github.com/backstage/backstage)
+- [Backstage Discord channel](https://discord.com/invite/MUpMjP2)
