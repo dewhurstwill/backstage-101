@@ -20,7 +20,43 @@ We also recommend that you have completed the tasks in the [Configuring Backstag
 
 Login to the [Azure Portal](https://portal.azure.com) and create a new app registration.
 
-<img src="/assets/02-auth/app-reg.png" height=25%>
+<img src="/assets/02-auth/01-app-reg.png" height=25%>
+
+#### 1.2. Configure the app registration
+
+Configure the new app registration with a name and a redirect URI.
+
+<img src="/assets/02-auth/02-register-app-name.png" height=25%>
+
+Make note of the tenant ID, client ID.
+
+<img src="/assets/02-auth/03-app-details.png" height=25%>
+
+#### 1.3. Configure a secret
+
+Create a new secret for the app registration.
+
+<img src="/assets/02-auth/05-secrets.png" height=25%>
+
+Make note of the secret value.
+
+<img src="/assets/02-auth/06-secret-value.png" height=25%>
+
+#### 1.4. Now we will need to add some permissions to the app registration
+
+Navigate to the API permissions tab and add the following permissions:
+
+<img src="/assets/02-auth/08-permissions.png" height=25%>
+
+- Microsoft Graph
+  - email (delegated)
+  - GroupMember.Read.All (application)
+  - openid (delegated)
+  - profile (delegated)
+  - User.Read (delegated)
+  - User.ReadBasic.All (application)
+
+<img src="/assets/02-auth/09-add-permissions.png" height=25%>
 
 ### 2. Configure the `app-config.yaml` file
 
