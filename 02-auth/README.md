@@ -60,7 +60,15 @@ Navigate to the API permissions tab and add the following permissions:
 
 <img src="/assets/02-auth/09-add-permission.png" height=25%>
 
-<img src="/assets/02-auth/10-required-perms.png" height=25%>
+Once added you will need to grant admin consent.
+
+<img src="/assets/02-auth/10-grant-permissions.png" height=25%>
+
+Finally you will need to ensure that Implicit grant and hybrid flows are unticked.
+
+<img src="/assets/02-auth/12-auth.png" height=25%>
+
+<img src="/assets/02-auth/13-required-auth-settings.png" height=25%>
 
 ### 2. Configure the `app-config.yaml` file
 
