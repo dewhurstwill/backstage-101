@@ -45,7 +45,7 @@ npm install --global yarn
 yarn -v
 ```
 
-> Ensure you are using Yarn version 1.22.5 or later.
+> Ensure you are using Yarn version 4.4.1 or later.
 
 ## Tasks
 

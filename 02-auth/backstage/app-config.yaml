@@ -27,8 +27,6 @@ backend:
       user: postgres
       password: mysecretpassword
 
-integrations:
-
 proxy:
 
 techdocs:
@@ -39,12 +37,60 @@ techdocs:
     type: 'local'
 
 auth:
+  environment: development
   providers:
     guest: {}
+    microsoftGraphOrg:
+      default:
+        tenantId: ${AZURE_TENANT_ID}
+        user:
+          filter: accountEnabled eq true and userType eq 'member'
+        group:
+          filter: >
+            securityEnabled eq false
+            and mailEnabled eq true
+            and groupTypes/any(c:c+eq+'Unified')
+        schedule:
+          frequency: PT5H
+          timeout: PT50M
+    microsoft:
+      development:
+        clientId: ${AZURE_CLIENT_ID}
+        clientSecret: ${AZURE_CLIENT_SECRET}
+        tenantId: ${AZURE_TENANT_ID}
+        domainHint: ${AZURE_TENANT_ID}
+        additionalScopes:
+          - Mail.Send
+        signIn:
+          resolvers:
+            - resolver: emailMatchingUserEntityProfileEmail
 
 scaffolder:
 
 catalog:
+  providers:
+    microsoftGraphOrg:
+      providerId:
+        target: https://graph.microsoft.com/v1.0
+        authority: https://login.microsoftonline.com
+        tenantId: ${AZURE_TENANT_ID}
+        clientId: ${AZURE_CLIENT_ID}
+        clientSecret: ${AZURE_CLIENT_SECRET}
+        queryMode: basic
+        user:
+          filter: accountEnabled eq true and userType eq 'member'
+        group:
+          filter: >
+            securityEnabled eq false
+            and mailEnabled eq true
+            and groupTypes/any(c:c+eq+'Unified')
+        schedule:
+          # supports cron, ISO duration, "human duration" as used in code
+          frequency: { hours: 1 }
+          # supports ISO duration, "human duration" as used in code
+          timeout: { minutes: 50 }
+          # supports ISO duration, "human duration" as used in code
+          initialDelay: { seconds: 15 }
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration

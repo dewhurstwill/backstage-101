@@ -70,107 +70,238 @@ Finally you will need to ensure that Implicit grant and hybrid flows are unticke
 
 <img src="/assets/02-auth/13-required-auth-settings.png" height=25%>
 
-### 2. Configure the `app-config.yaml` file
+### 2. Configuring auth in our `app-config.yaml` file
 
-#### 2.1. Change the title
+#### 2.1. Add the auth configuration
 
-You can change the title of your Backstage app by changing the `title` field in the `app-config.yaml` file.
-
-```yaml
-app:
-  title: 'My Backstage App'
-```
-
-#### 2.2. Change the organization name
-
-You can change the organization name by changing the `organization` field in the `app-config.yaml` file.
+Add the following configuration to the `app-config.yaml` file.
 
 ```yaml
-app:
-  organization:
-    name: ACME Corp
+auth:
+  environment: development
+  providers:
+    guest: {}
+    microsoftGraphOrg:
+      default:
+        tenantId: ${AZURE_TENANT_ID}
+        user:
+          filter: accountEnabled eq true and userType eq 'member'
+        group:
+          filter: >
+            securityEnabled eq false
+            and mailEnabled eq true
+            and groupTypes/any(c:c+eq+'Unified')
+        schedule:
+          frequency: PT5H
+          timeout: PT50M
+    microsoft:
+      development:
+        clientId: ${AZURE_CLIENT_ID}
+        clientSecret: ${AZURE_CLIENT_SECRET}
+        tenantId: ${AZURE_TENANT_ID}
+        domainHint: ${AZURE_TENANT_ID}
+        additionalScopes:
+          - Mail.Send
+        signIn:
+          resolvers:
+            - resolver: emailMatchingUserEntityProfileEmail
 ```
 
-#### 2.3. Change the host configuration (optional)
+This will allow backstage to authenticate users using Entra ID (Formerly Azure AD). The configuration will any user of the tenant to login, we will be implementing permissions later.
 
-Here you can change the port and host that Backstage listens on. By default, Backstage listens on port TCP/3000 & TCP/7007 on localhost.
-
-```yaml
-app:
-  listen:
-    port: 3000
-    host: 0.0.0.0
-
-backend:
-  listen:
-    port: 7007
-    host: 0.0.0.0
-```
-
-If you change the frontend (app) port you will also need to change the CORS configuration.
-
-```yaml
-backend:
-  cors:
-    origin: http://localhost:YOUR_UPDATED_PORT
-```
-
-### 3. Deploy a Postgres database
-
-You can deploy a Postgres database using Docker. Run the following command:
+You will need to add the environment variables or replace them in your configuration
 
 ```bash
-docker pull postgres:17.0-bookworm
-docker run -d --name backstage-postgres --restart=always -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword postgres:17.0-bookworm
+export AZURE_TENANT_ID=YOUR_TENANT_ID
+export AZURE_CLIENT_ID=YOUR_CLIENT_ID
+export AZURE_CLIENT_SECRET=YOUR_CLIENT
 ```
 
-### 4. Update the `app-config.yaml` file with the Postgres database connection
+#### 2.2. Install the required packages
+
+You will need to install the required packages to use the Microsoft Graph provider.
+This command
+
+```bash
+yarn --cwd packages/backend add \
+    @backstage/plugin-auth-backend-module-microsoft-provider \
+    @backstage/plugin-catalog-backend-module-msgraph
+```
+
+#### 2.3. Update the catalog configuration in the `app-config.yaml` file
+
+Add the following configuration to the `app-config.yaml` file.
 
 ```yaml
-backend:
-  database:
-    client: pg
-    connection:
-      host: localhost
-      port: 5432
-      user: postgres
-      password: mysecretpassword
+catalog:
+  providers:
+    microsoftGraphOrg:
+      providerId:
+        target: https://graph.microsoft.com/v1.0
+        authority: https://login.microsoftonline.com
+        tenantId: ${AZURE_TENANT_ID}
+        clientId: ${AZURE_CLIENT_ID}
+        clientSecret: ${AZURE_CLIENT_SECRET}
+        queryMode: basic
+        user:
+          filter: accountEnabled eq true and userType eq 'member'
+        group:
+          filter: >
+            securityEnabled eq false
+            and mailEnabled eq true
+            and groupTypes/any(c:c+eq+'Unified')
+        schedule:
+          # supports cron, ISO duration, "human duration" as used in code
+          frequency: { hours: 1 }
+          # supports ISO duration, "human duration" as used in code
+          timeout: { minutes: 50 }
+          # supports ISO duration, "human duration" as used in code
+          initialDelay: { seconds: 15 }
 ```
 
-This is fine for local development, but in production, you should use environment variables to store sensitive information.
+This will allow backstage to pull in data from your Azure AD tenant so it can be referenced in the catalog.
 
-```yaml
-backend:
-  database:
-    client: pg
-    connection:
-      host: ${POSTGRES_HOST}
-      port: ${POSTGRES_PORT}
-      user: ${POSTGRES_USER}
-      password: ${POSTGRES_PASSWORD}
+#### 2.3. Add the required content to `packages/backend/src/plugins/auth.ts`
+
+Add the following code to the `packages/backend/src/plugins/auth.ts` file.
+
+```typescript
+import {
+  createRouter,
+  providers,
+  defaultAuthProviderFactories,
+} from '@backstage/plugin-auth-backend';
+import { Router } from 'express';
+import { PluginEnvironment } from '../types';
+
+export default async function createPlugin(
+  env: PluginEnvironment,
+): Promise<Router> {
+  return await createRouter({
+    logger: env.logger,
+    config: env.config,
+    database: env.database,
+    discovery: env.discovery,
+    tokenManager: env.tokenManager,
+    providerFactories: {
+      ...defaultAuthProviderFactories,
+
+      microsoft: providers.microsoft.create({
+        signIn: {
+          resolver:
+            providers.microsoft.resolvers.emailMatchingUserEntityProfileEmail(),
+        },
+      }),
+    },
+  });
+}
 ```
 
-### 5. Restart your Backstage app
+#### 2.4. Add the required content to `packages/backend/src/plugins/caalog.ts`
 
-To apply the changes, you will need to restart your Backstage app.
+Add the following code to the `packages/backend/src/plugins/auth.ts` file.
+
+```typescript
+import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
+import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
+import { Router } from 'express';
+import { PluginEnvironment } from '../types';
+import { MicrosoftGraphOrgEntityProvider } from '@backstage/plugin-catalog-backend-module-msgraph';
+
+export default async function createPlugin(
+  env: PluginEnvironment,
+): Promise<Router> {
+  const builder = await CatalogBuilder.create(env);
+
+  builder.addEntityProvider(
+    MicrosoftGraphOrgEntityProvider.fromConfig(env.config, {
+      logger: env.logger,
+      schedule: env.scheduler.createScheduledTaskRunner({
+        frequency: { hours: 1 },
+        timeout: { minutes: 50 },
+        initialDelay: { seconds: 15 },
+      }),
+    }),
+  );
+
+  builder.addProcessor(new ScaffolderEntitiesProcessor());
+  const { processingEngine, router } = await builder.build();
+  await processingEngine.start();
+  return router;
+}
+```
+
+#### 2.5. Add the required additional lines to `packages/backend/src/index.ts`
+
+```typescript
+// auth plugin
+backend.add(import('@backstage/plugin-auth-backend-module-microsoft-provider'));
+
+// catalog plugin
+backend.add(import('@backstage/plugin-catalog-backend-module-msgraph'));
+```
+
+#### 2.6. Register the auth provider in the frontend
+
+Add the following code to the `packages/app/src/App.tsx` file.
+
+```typescript
+import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
+
+const app = createApp({
+  // Existing configuration goes here
+  components: {
+    SignInPage: props => {
+      return (
+        <SignInPage
+          {...props}
+          providers={[
+            'guest', // Should be removed in production
+            {
+              id: 'azure-auth-provider',
+              title: 'Entra ID',
+              message: 'Sign in with Microsoft',
+              apiRef: microsoftAuthApiRef,
+            },
+          ]}
+        />
+      );
+    },
+  },
+});
+```
+
+### 3. Restart your Backstage app
+
+For your changes to take effect, you will need to restart your Backstage app.
 
 ```bash
 yarn dev
 ```
 
-Not Working? Check the logs in the terminal where you started the Backstage app.
-
-Still not working? Check out our example `app-config.yaml` file [here](./backstage/app-config.yaml).
-
-### 6. Verify the changes
+### 4. Verify the changes
 
 Open your browser and navigate to `http://localhost:3000` to see the changes you have made.
+
+<img src="/assets/02-auth/14-new-auth-button.png" height=25%>
+
+You should now see a new button on the login page for Entra ID.
+
+#### 4.1. Login with Entra ID
+
+Click the Entra ID button and login with your Entra ID credentials.
+
+<img src="/assets/02-auth/15-authenticated.png" height=25%>
+
+You should now be logged in to Backstage using Entra ID.
+
+<img src="/assets/02-auth/16-settings-page.png" height=25%>
 
 ## Next steps
 
 In the next section, you will learn how to set up Auth in Backstage.
 
-- [Setting up Auth](../02-auth/README.md)
+- [Setting up GitHub integration](../03-github/README.md)
 
 ## Resources
 
