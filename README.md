@@ -21,12 +21,12 @@ Before you start, you will need to follow the instructions in the [Getting Start
 ## Workshop
 
 - [Getting started](00-getting-started/README.md)
-- [Configuring Backstage](01-configuring-backstage/README.md)
-- [Setting up Auth](02-setting-up-auth/README.md)
-- [Setting up GitHub integration](03-setting-up-github-integration/README.md)
-- [Changing the UI](04-changing-the-ui/README.md)
-- [Adding items to the catalog](05-adding-items-to-the-catalog/README.md)
-- [Adding a template](06-adding-a-template/README.md)
+- [Configuring Backstage](01-configuring/README.md)
+- [Setting up Auth](02-auth/README.md)
+- [Setting up GitHub integration](03-github/README.md)
+- [Changing the UI](04-ui/README.md)
+- [Adding items to the catalog](05-catalog/README.md)
+- [Adding a template](06-templates/README.md)
 
 ## Resources
 
