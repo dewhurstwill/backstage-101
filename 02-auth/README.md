@@ -161,7 +161,7 @@ catalog:
 
 This will allow backstage to pull in data from your Azure AD tenant so it can be referenced in the catalog.
 
-#### 2.3. Add the required content to `packages/backend/src/plugins/auth.ts`
+#### 2.3. auth.ts
 
 Add the following code to the `packages/backend/src/plugins/auth.ts` file.
 
@@ -197,9 +197,9 @@ export default async function createPlugin(
 }
 ```
 
-#### 2.4. Add the required content to `packages/backend/src/plugins/caalog.ts`
+#### 2.4. catalog.ts
 
-Add the following code to the `packages/backend/src/plugins/auth.ts` file.
+Add the following code to the `packages/backend/src/plugins/catalog.ts` file.
 
 ```typescript
 import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
