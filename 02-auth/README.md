@@ -58,7 +58,9 @@ Navigate to the API permissions tab and add the following permissions:
   - User.Read (delegated)
   - User.ReadBasic.All (application)
 
-<img src="/assets/02-auth/09-add-permissions.png" height=25%>
+<img src="/assets/02-auth/09-add-permission.png" height=25%>
+
+<img src="/assets/02-auth/10-required-perms.png" height=25%>
 
 ### 2. Configure the `app-config.yaml` file
 
