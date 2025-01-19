@@ -112,7 +112,7 @@ Click on Developer settings in the left-hand menu.
 
 #### 1b.5. Click on New GitHub App
 
-<img src="/assets/03-github/23-new-github-app.png" height=25%>
+<img src="/assets/03-github/23-new-github-apps.png" height=25%>
 
 #### 1b.6. Fill in the details
 
