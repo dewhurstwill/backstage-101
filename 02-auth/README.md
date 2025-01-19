@@ -299,7 +299,7 @@ You should now be logged in to Backstage using Entra ID.
 
 ## Next steps
 
-In the next section, you will learn how to set up Auth in Backstage.
+In the next section, you will learn how to set up the GitHub Integration in Backstage.
 
 - [Setting up GitHub integration](../03-github/README.md)
 

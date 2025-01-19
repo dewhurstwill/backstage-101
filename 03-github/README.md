@@ -206,9 +206,9 @@ You should now see a new repo in your GitHub account and the component in Backst
 
 ## Next steps
 
-In the next section, you will learn how to set up Auth in Backstage.
+In the next section, you will learn how to configure the theme and UI in Backstage.
 
-- [Setting up GitHub integration](../03-github/README.md)
+- [Theme & UI](../04-ui/README.md)
 
 ## Resources
 
