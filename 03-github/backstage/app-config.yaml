@@ -22,14 +22,10 @@ backend:
   database:
     client: pg
     connection:
-      # host: ${POSTGRES_HOST}
-      # port: ${POSTGRES_PORT}
-      # user: ${POSTGRES_USER}
-      # password: ${POSTGRES_PASSWORD}
-      host: localhost
-      port: 5432
-      user: postgres
-      password: mysecretpassword
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
 
 proxy:
 
@@ -72,11 +68,9 @@ auth:
 scaffolder:
 
 integrations:
-  # Development
-  #github:
-  #  - host: github.com
-  #    token: ${GITHUB_TOKEN}
-  # Production ready
+  # github:
+  #   - host: github.com
+  #     token: ${GITHUB_TOKEN}
   github:
     - host: github.com
       apps:
