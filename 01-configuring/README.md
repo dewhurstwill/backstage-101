@@ -94,7 +94,15 @@ backend:
       password: ${POSTGRES_PASSWORD}
 ```
 
-### 5. Restart your Backstage app
+### 5. Environment variables
+
+When running backstage you will need to configure the following environment variable:
+
+```bash
+export NODE_OPTIONS=--no-node-snapshot
+```
+
+### 6. Restart your Backstage app
 
 To apply the changes, you will need to restart your Backstage app.
 
@@ -106,7 +114,7 @@ Not Working? Check the logs in the terminal where you started the Backstage app.
 
 Still not working? Check out our example `app-config.yaml` file [here](./backstage/app-config.yaml).
 
-### 6. Verify the changes
+### 7. Verify the changes
 
 Open your browser and navigate to `http://localhost:3000` to see the changes you have made.
 
