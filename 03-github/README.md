@@ -13,7 +13,7 @@ We also recommend that you have completed the tasks in the [Configuring Backstag
 
 ## Tasks
 
-> For learning / demo purposes you can follow the steps in 1a. For production use, you should follow the steps in 1b.
+> For learning / demo purposes you can follow the steps in 1a. Otherwise, you should follow the steps in 1b.
 
 ### 1a. Create a PAT token in GitHub
 
@@ -84,13 +84,79 @@ integrations:
       token: ${GITHUB_TOKEN}
 ```
 
+> You can now proceed to step 2
+
 ### 1b. Setup a GitHub App
 
-#### 1b.1. Create a new app registration
+#### 1b.1. Navigate to your GitHub account
 
-#### 1b.x Add the configuration to the `app-config.yaml` file
+Navigate to your GitHub account and click on your profile picture in the top right corner.
+
+<img src="/assets/03-github/01-profile.png" height=25%>
+
+#### 1b.2. Click on settings
+
+Click on settings in the dropdown menu.
+
+<img src="/assets/03-github/02-settings.png" height=25%>
+
+#### 1b.3. Click on Developer settings
+
+Click on Developer settings in the left-hand menu.
+
+<img src="/assets/03-github/03-dev-settings.png" height=25%>
+
+#### 1b.4. Click on GitHub Apps
+
+<img src="/assets/03-github/22-github-apps.png" height=25%>
+
+#### 1b.5. Click on New GitHub App
+
+<img src="/assets/03-github/23-new-github-app.png" height=25%>
+
+#### 1b.6. Fill in the details
+
+Fill in the details for your GitHub App.
+
+<img src="/assets/03-github/24-github-app-name.png" height=25%>
+
+<img src="/assets/03-github/25-callback.png" height=25%>
+
+<img src="/assets/03-github/26-perms.png" height=25%>
+
+<img src="/assets/03-github/27-webhook.png" height=25%>
+
+<img src="/assets/03-github/28-create.png" height=25%>
+
+#### 1b.7. Copy the App ID & Client ID
+
+Copy the App ID & Client ID.
+
+<img src="/assets/03-github/29-app-details.png" height=25%>
+
+#### 1b.8. Generate a client secret
+
+Generate a client secret.
+
+<img src="/assets/03-github/30-generate-secret.png" height=25%>
+
+#### 1b.9. Generate a private key
+
+Generate a private key.
+
+<img src="/assets/03-github/31-generate-private-key.png" height=25%>
+
+You will want to open the downloaded file in a text editior (VSCode/TextEdit) and copy the contents.
+
+#### 1b.10. Add the configuration to the `app-config.yaml` file
 
 ```yaml
+auth:
+  github:
+    development:
+      clientId: ${AUTH_GITHUB_CLIENT_ID}
+      clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+
 integrations:
   github:
     - host: github.com
