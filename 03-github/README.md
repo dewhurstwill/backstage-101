@@ -47,9 +47,9 @@ Click on Generate new token.
 
 <img src="/assets/03-github/05-tokens.png" height=25%>
 
-<img src="/assets/02-auth/06-generate.png" height=25%>
+<img src="/assets/03-github/06-generate.png" height=25%>
 
-<img src="/assets/02-auth/07-generate.png" height=25%>
+<img src="/assets/03-github/07-generate.png" height=25%>
 
 #### 1a.6. Name your token and set an expiration
 
@@ -63,17 +63,17 @@ Set the permissions for the token.
 
 <img src="/assets/03-github/09-scopes.png" height=25%>
 
-<img src="/assets/02-auth/10-scopes.png" height=25%>
+<img src="/assets/03-github/10-scopes.png" height=25%>
 
 #### 1a.8. Generate the token
 
 Click on Generate token.
 
-<img src="/assets/02-auth/11-generate.png" height=25%>
+<img src="/assets/03-github/11-generate.png" height=25%>
 
 #### 1a.9. Copy the token
 
-<img src="/assets/02-auth/12-copy-token.png" height=25%>
+<img src="/assets/03-github/12-copy-token.png" height=25%>
 
 #### 1a.10. Add the configuration to the `app-config.yaml` file
 
