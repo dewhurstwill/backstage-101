@@ -55,7 +55,7 @@ yarn -v
 npx @backstage/create-app@latest
 ```
 
-> At the time of writing this workshop, the latest version of the @backstage/create-app is `0.24.0`. If you want to use the exact same version this can be done by running `npx @backstage/create-app@0.24.0`
+> At the time of writing this workshop, the latest version of the @backstage/create-app is `0.5.24`. If you want to use the exact same version this can be done by running `npx @backstage/create-app@0.5.24`
 
 ### 2. Change into the directory of the newly created app:
 
